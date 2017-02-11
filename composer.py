@@ -1,4 +1,5 @@
 import pygame
+import copy
 
 ####################################
 ####################################
@@ -15,6 +16,7 @@ def init(data):
     data.click = False
     data.buttonColor = (0,0,0)
     data.cpButton = (70, 545, 50, 50)
+    data.colorArr = []
 
     #Color picker stuff
     data.cMax, data.cStep = 255, 5  # Max value for colors, the step of the
@@ -30,15 +32,6 @@ def init(data):
     data.colorBar = []  # List of all the colors in rgb list form
     data.colorPicker = False # If they color picker button is pressed.
     makeColorBar(data)
-
-# def roundline(srf, color, start, end, radius=1): #taken from stack overflow
-# 	dx = end[0]-start[0]
-#     dy = end[1]-start[1]
-#     distance = max(abs(dx), abs(dy))
-#     for i in range(distance):
-#         x = int(start[0]+float(i)/distance*dx)
-#         y = int(start[1]+float(i)/distance*dy)
-#         pygame.draw.circle(srf, color, (x, y), radius)
 
 def mousePressed(event, data):
     x, y = event.pos
@@ -107,8 +100,6 @@ def db(*args):
 def draw(screen, data):
     for loc in data.cells:
         pygame.draw.circle(screen, data.cells[loc], loc, data.radius)
-
-
 
 # This function takes the text, the center of the text, font, and color, and 
 # draw the text on the screen.
@@ -225,6 +216,15 @@ def drawColor(screen, data):
         data.cMax * 2 + data.margin * 2, data.cMax * 2, (data.height - (data.margin * 3 + 
                 (data.cMax * 2))) / 2])
     print(data.red, data.green, data.blue)
+
+def getColors(screen, data):
+    colorArr = []
+    for x in range(data.width):
+        colColor = []
+        for y in range(data.height):
+            colColor.append(screen.get_at(x, y))
+        colorArr.append(copy.copy(colColor))
+    data.colorArr = copy.copy(colorArr)
 
 ####################################
 # use the run function as-is
