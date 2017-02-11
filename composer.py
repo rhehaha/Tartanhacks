@@ -137,7 +137,7 @@ def mousePressed(event, data):
     if event.type == pygame.MOUSEMOTION:
         if data.click == True:
             data.pos = event.pos
-            data.cells[data.pos] = (data.red, data.green,)
+            data.cells[data.pos] = (data.red, data.green, data.blue)
 
 def keyPressed(event, data):
     pass
@@ -170,6 +170,29 @@ def db(*args):
     dbOn = False
     if (dbOn): print(args)
 
+def rgbToHSL(r, g, b):
+    red = r/255
+    green = g/255
+    blue = b/255
+    cmaximum = max(red, green, blue)
+    cminimum = min(red, green, blue)
+    delta = cmaximum - cminimum
+    l = (cmaximum + cminimum)/2
+    if delta == 0:
+        s = 0
+        h = 0
+    else:
+        if max(red, green, blue) == red: 
+            h = (green-blue)/(cmaximum-cminimum)
+        elif max(red, green, blue) == green:
+            h = 2.0 + (blue - red)/(cmaximum-cminimum)
+        else:
+            h = 4.0 + (red - green)/(cmaximum-cminimum)
+        if h < 0: h += 360
+        h *= 60
+        if l < 0.5:
+            s = (cmaximum-cminimum)/(cmaximum+cminimum)
+        else: s = (cmaximum-cminimum)/(2.0-cmaximum-cminimum)
 # def roundline(screen, color, start, end, radius):
 #     dx = end[0]-start[0]
 #     dy = end[1]-start[1]
