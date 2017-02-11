@@ -145,12 +145,13 @@ def timerFired(data):
     pass
 
 def redrawAll(screen, data):
-    drawUI(screen, data)
     x,y,w,h = data.cpButton
     drawButton(screen, data, x,y,w,h)
     if data.colorPicker:
         drawColorPicker(screen, data)
-    else: draw(screen, data)
+    else: 
+        draw(screen, data)
+        drawUI(screen, data)
 
 def drawColorPicker(screen, data):
     drawGradientSquare(screen, data)
