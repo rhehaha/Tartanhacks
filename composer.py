@@ -22,7 +22,10 @@ def init(data):
 #         x = int(start[0]+float(i)/distance*dx)
 #         y = int(start[1]+float(i)/distance*dy)
 #         pygame.draw.circle(srf, color, (x, y), radius)
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 def roundline(srf, color, start, end, radius=1): #taken from stack overflow
     screen = pygame.display.set_mode(size)
 
