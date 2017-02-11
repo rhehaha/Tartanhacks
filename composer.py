@@ -7,7 +7,7 @@ import pygame
 screen = pygame.display.set_mode(size)
 =======
 def init(data):
-    data.background = [255, 255, 255]
+	data.background = [255, 255, 255]
     
 def mousePressed(event, data):
     pass
@@ -51,8 +51,8 @@ def drawButton(screen, data, x, y, w, h, text, cX, cY, font, textColor):
 ####################################
 
 def run(width=300, height=300):
-    def redrawAllWrapper(screen, data):
-        screen.fill(data.background)
+	def redrawAllWrapper(screen, data):
+		screen.fill(data.background)
         row, col = 0, 0
         color = [255, 255, 255]
         redrawAll(screen, data)
