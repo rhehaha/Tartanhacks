@@ -63,6 +63,7 @@ def drawUI(screen, data):
         +data.easelPlankW)] 
     data.easelBottom = (0, data.height-data.easelBottomH, data.width,
                                                             data.easelBottomH)
+    data.easelBottom2 = (0, data.height-data.easelBottomH-10, data.width, 10)
     pygame.draw.rect(data.textCanvas, data.black, (0, 0, 800, 600), 0)
     pygame.draw.polygon(data.textCanvas,data.lightGray,[(0, data.easelPlankH), (30,
         data.easelPlankH-20), (770, data.easelPlankH-20), (data.width, 
@@ -77,10 +78,11 @@ def drawUI(screen, data):
     data.eraserPoints = [(170,580), (200,550), (230,550), (200,580)] 
     data.eraserPoints2 = [(170, 580), (200, 580), (230, 550), (230, 560), 
                     (200, 590), (170, 590)]
-    pygame.draw.rect(data.textCanvas, data.brown4, data.easelBottom, 0)
+    pygame.draw.rect(data.textCanvas, data.brown3, data.easelBottom, 0)
+    pygame.draw.rect(data.textCanvas, data.brown4, data.easelBottom2, 0)
     #draw color picker
-    #data.pickerColor = (data.red, data.green, data.blue)
-    pygame.draw.rect(data.textCanvas, data.black, (70, data.height
+    data.pickerColor = (data.red, data.green, data.blue)
+    pygame.draw.rect(data.textCanvas, data.pickerColor, (70, data.height
         -data.easelBottomH+5, 50, 50), 0)
     #draw eraser
     pygame.draw.polygon(data.textCanvas, data.pink, data.eraserPoints, 0)
