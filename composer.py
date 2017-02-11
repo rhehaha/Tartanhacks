@@ -1,5 +1,6 @@
 import pygame, math
 import copy
+import time
 
 ####################################
 ####################################
@@ -17,6 +18,9 @@ def init(data):
     data.cpButton = (70, 545, 50, 50)
     data.colorArr = []
     data.hsl = ()
+    data.sounds = []
+    initSounds(data)
+    data.vol = []
 
     #Color picker stuff
     data.cMax, data.cStep = 255, 5  # Max value for colors, the step of the
@@ -43,7 +47,7 @@ def drawUI(screen, data):
     data.brown1 = (215, 160, 87)
     data.brown2 = (180, 128, 60)
     data.brown3 = (165, 120, 55)
-    data.brown4 = (135, 90, 30)
+    data.brown4 = (145, 100, 43)
     data.pink = (255, 153, 153)
     data.darkPink = (245, 102, 102)
     data.easelPlankW = 20
@@ -88,18 +92,18 @@ def drawUI(screen, data):
     pygame.draw.polygon(data.textCanvas, data.pink, data.eraserPoints, 0)
     pygame.draw.polygon(data.textCanvas, data.darkPink, data.eraserPoints2, 0)
     #draw audio button
-    pygame.draw.ellipse(data.textCanvas, data.lightGray, (610,542,57,55), 0)
-    pygame.draw.ellipse(data.textCanvas, data.white, (614,546,49,47), 0)
-    pygame.draw.polygon(data.textCanvas, data.black, [(620,570), (645,552),
-                    (645,588)], 0)
-    #pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
-    pygame.draw.rect(data.textCanvas, data.black, (620,560,20,22), 0)
-    pygame.draw.arc(data.textCanvas, data.black, (644,565,10,10), -1*math.pi/2,
+    pygame.draw.polygon(data.textCanvas, data.black, [(613,570), (650,545),
+                    (650,595)], 0)
+    pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
+    pygame.draw.rect(data.textCanvas, data.black, (613,558,20,27), 0)
+    pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
                         math.pi/2, 3)
-    pygame.draw.arc(data.textCanvas, data.black, (648,558,12,22), -1*math.pi/2,
+    pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
+                        math.pi/2, 3)
+    pygame.draw.arc(data.textCanvas, data.black, (675,555,12,30), -1*math.pi/2,
                         math.pi/2, 3)
     #draw title
-    titleFont = pygame.font.SysFont('helvetica', 40, True)
+    titleFont = pygame.font.SysFont('avenir', 32, True)
     title = titleFont.render('c o m p o s e r', True, data.white)
     data.textCanvas.blit(title, (280, 545))
     #draw exit button
@@ -112,6 +116,8 @@ def drawUI(screen, data):
         -data.easelBottomH+15), (745, data.height
         -data.easelBottomH+45), 3)
     screen.blit(data.textCanvas, (0,0))
+
+    data.canLen = data.height - data.easelBottomH - 10 - data.easelPlankH
     
 def mousePressed(event, data):
     x, y = event.pos
@@ -329,42 +335,67 @@ def getColors(screen, data):
         colorArr.append(copy.copy(colColor))
     data.colorArr = copy.copy(colorArr)
 
-def getInstrument(data):
-    instrArr = []
+def getPitch(data):
+    PitchArr = []
     for x in range(data.width):
-        colInstr = [0, 0, 0, 0, 0, 0, 0]
+        colPitch = [0, 0, 0, 0, 0, 0, 0]
         for color in data.colorArr[x]:
             if color[2] < 15 or (color[1] <= 10 and color[2] < 75):
-                colInstr[6] += 1
+                colPitch[6] += 1
 
             elif color[2] >= 15 and color[2] < 90:
                 if color[0] <= 10 or color[0] > 300:
-                    colInstr[0] += 1
+                    colPitch[0] += 1
 
                 elif color[0] <= 45:
-                    colInstr[1] += 1
+                    colPitch[1] += 1
 
                 elif color[0] <= 75:
-                    colInstr[2] += 1
+                    colPitch[2] += 1
 
                 elif color[0] <= 140:
-                    colInstr[3] += 1
+                    colPitch[3] += 1
 
                 elif color[0] <= 250:
-                    colInstr[4] += 1
+                    colPitch[4] += 1
 
                 elif color[0] <= 300:
-                    colInstr[5] += 1
-        instrArr.append(copy.copy(colInstr))
-    data.instrArr = copy.copy(instrArr)
+                    colPitch[5] += 1
+        PitchArr.append(copy.copy(colPitch))
+    data.PitchArr = copy.copy(PitchArr)
     
 def getSounds(screen, data):
     getColors(screen, data)
-    # print(data.colorArr)
-    getInstrument(data)
-    for x in range(data.width - 20, data.width):
-        print data.instrArr
+    getPitch(data)
+    playSounds(data)
 
+def playSounds(data):
+    calcVol(data)
+    print("here")
+    for x in range(data.width):
+        # for i in range(len(data.sounds)):
+        #     data.sounds[i].set_volume(data.pitchVol[x][i])
+        #     print("setting vol")
+        for i in range(len(data.sounds)):
+            if data.PitchArr[i] != 0: data.sounds[i].play(-1, 5000)
+            print("playing sound")
+        time.sleep(5)
+
+def calcVol(data):
+    pitchVol = []
+    for x in range(data.width):
+        volCol = []
+        for pitch in data.PitchArr[x]:
+            volCol.append(float(pitch) / data.canLen)
+        pitchVol.append(copy.copy(volCol))
+    data.pitchVol = copy.copy(pitchVol)
+
+def initSounds(data):
+    for i in range(7):
+        s = "note" + str(i) + ".wav"
+        data.sounds.append(pygame.mixer.Sound(s))
+        data.sounds[i].set_volume(1)
+    
 ####################################
 # use the run function as-is
 ####################################
