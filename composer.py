@@ -13,9 +13,9 @@ def init(data):
     data.color = (0, 0, 0)
     data.radius = 10
     data.click = False
+    data.buttonColor = (0,0,0)
+    data.cpButton = (70, 545, 50, 50)
 
-<<<<<<< HEAD
-=======
     #Color picker stuff
     data.cMax, data.cStep = 255, 5  # Max value for colors, the step of the
     # rainbow bar
@@ -26,7 +26,7 @@ def init(data):
     # The rgb values for the actual color
     data.cBar, data.gCirc = data.margin, [data.cMax * 2 + data.margin, data.margin]
     # The location on the rainbow bar (y) and gradient square (x, y)
-    data.barWidth, data.barLength = 40, data.cMax * 12 / data.cStep - data.margin
+    data.barWidth, data.barLength = 40, data.cMax * 12 // data.cStep - data.margin
     data.colorBar = []  # List of all the colors in rgb list form
     data.colorPicker = False # If they color picker button is pressed.
     makeColorBar(data)
@@ -40,22 +40,25 @@ def init(data):
 #         y = int(start[1]+float(i)/distance*dy)
 #         pygame.draw.circle(srf, color, (x, y), radius)
 
->>>>>>> origin/master
 def mousePressed(event, data):
-    if data.colorPicker:
+    x, y = event.pos
+    a, b, w, h = data.cpButton
+    if data.colorPicker and event.type == pygame.MOUSEBUTTONDOWN:
             # If within the rainbow bar, change the bar rgb values
-        x, y = event.pos
         if x > data.margin * 2 + data.cMax * 2 and y < data.barLength + data.margin:
             data.cBar = y
-            data.r = data.colorBar[data.cBar/2][0]
-            data.g = data.colorBar[data.cBar/2][1]
-            data.b = data.colorBar[data.cBar/2][2]
+            data.r = data.colorBar[data.cBar//2][0]
+            data.g = data.colorBar[data.cBar//2][1]
+            data.b = data.colorBar[data.cBar//2][2]
         # If within the gradient square, update the location in the square
         elif (x > data.margin and x < data.margin + data.cMax * 2 and
             y > data.margin and y < data.margin + data.cMax * 2):
             data.gCirc[0], data.gCirc[1] = x, y
     if event.type == pygame.MOUSEBUTTONDOWN: 
         data.click = True
+        if x >= a and x <= (a+w) and y >= b and y <= (b+h):
+            if not data.colorPicker: data.colorPicker = True
+            elif data.colorPicker: data.colorPicker = False
     if event.type == pygame.MOUSEBUTTONUP: 
         data.click = False
     if event.type == pygame.MOUSEMOTION:
@@ -70,9 +73,11 @@ def timerFired(data):
     pass
 
 def redrawAll(screen, data):
-    draw(screen, data)
+    x,y,w,h = data.cpButton
+    drawButton(screen, data, x,y,w,h)
     if data.colorPicker:
         drawColorPicker(screen, data)
+    else: draw(screen, data)
 
 def drawColorPicker(screen, data):
     drawGradientSquare(screen, data)
@@ -113,11 +118,11 @@ def drawText(screen, data, text, x, y, font, color=[0, 0, 0]):
     textRect.center = (x, y)
     screen.blit(textSurf, textRect)
 
-def drawButton(screen, data, x, y, w, h, text, cX, cY, font, textColor):
+def drawButton(screen, data, x, y, w, h):
     pygame.draw.rect(screen, data.buttonColor, [x, y, w, h])
-    pygame.draw.rect(screen, data.white, [x, y, w, h], 8)
-    pygame.draw.rect(screen, data.black, [x, y, w, h], 4)
-    drawText(screen, data, text, cX, cY, font, textColor)
+    # pygame.draw.rect(screen, data.white, [x, y, w, h], 8)
+    # pygame.draw.rect(screen, data.black, [x, y, w, h], 4)
+    # drawText(screen, data, text, cX, cY, font, textColor)
 
 # This function makes the list of all the colors on the rainbow bar
 def makeColorBar(data):
@@ -140,8 +145,8 @@ def makeColorBar(data):
 # This function draws a rainbow bar down the right side of the screen
 def drawColorBar(screen, data):
     for i in range(data.barLength):
-        color = (data.colorBar[i/2][0],
-            data.colorBar[i/2][1], data.colorBar[i/2][2])
+        color = (data.colorBar[i//2][0],
+            data.colorBar[i//2][1], data.colorBar[i//2][2])
         pygame.draw.line(screen, color, [data.cMax * 2 + data.margin * 2,
             i + data.margin],[data.cMax * 2 + data.margin * 2 + data.barWidth, i + data.margin])
     pygame.draw.rect(screen, [0, 0, 0], [data.margin * 2 + data.cMax * 2,
@@ -168,8 +173,8 @@ def drawGradientSquare(screen, data):
         if g2 < 0: g2 = 0
         if b2 < 0: b2 = 0
         for x in range(data.cMax * 2):
-            r1, g1, b1 = data.cMax - y/2, data.cMax - y/2, data.cMax - y/2  
-            rN, gN, bN = colorBlender([r1, g1, b1], [r2, g2, b2], data.cMax-2,x/2)
+            r1, g1, b1 = data.cMax - y//2, data.cMax - y//2, data.cMax - y//2  
+            rN, gN, bN = colorBlender([r1, g1, b1], [r2, g2, b2], data.cMax-2,x//2)
             color = [rN, gN, bN]
             pygame.draw.line(screen, color, [x + data.margin, y + data.margin], 
                 [x + data.margin + 1, y + data.margin])
