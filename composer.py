@@ -43,7 +43,7 @@ def drawUI(screen, data):
     data.brown1 = (215, 160, 87)
     data.brown2 = (180, 128, 60)
     data.brown3 = (165, 120, 55)
-    data.brown4 = (145, 100, 43)
+    data.brown4 = (135, 90, 30)
     data.pink = (255, 153, 153)
     data.darkPink = (245, 102, 102)
     data.easelPlankW = 20
@@ -88,18 +88,18 @@ def drawUI(screen, data):
     pygame.draw.polygon(data.textCanvas, data.pink, data.eraserPoints, 0)
     pygame.draw.polygon(data.textCanvas, data.darkPink, data.eraserPoints2, 0)
     #draw audio button
-    pygame.draw.polygon(data.textCanvas, data.black, [(613,570), (650,545),
-                    (650,595)], 0)
-    pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
-    pygame.draw.rect(data.textCanvas, data.black, (613,558,20,27), 0)
-    pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
+    pygame.draw.ellipse(data.textCanvas, data.lightGray, (610,542,57,55), 0)
+    pygame.draw.ellipse(data.textCanvas, data.white, (614,546,49,47), 0)
+    pygame.draw.polygon(data.textCanvas, data.black, [(620,570), (645,552),
+                    (645,588)], 0)
+    #pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
+    pygame.draw.rect(data.textCanvas, data.black, (620,560,20,22), 0)
+    pygame.draw.arc(data.textCanvas, data.black, (644,565,10,10), -1*math.pi/2,
                         math.pi/2, 3)
-    pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
-                        math.pi/2, 3)
-    pygame.draw.arc(data.textCanvas, data.black, (675,555,12,30), -1*math.pi/2,
+    pygame.draw.arc(data.textCanvas, data.black, (648,558,12,22), -1*math.pi/2,
                         math.pi/2, 3)
     #draw title
-    titleFont = pygame.font.SysFont('avenir', 32, True)
+    titleFont = pygame.font.SysFont('helvetica', 40, True)
     title = titleFont.render('c o m p o s e r', True, data.white)
     data.textCanvas.blit(title, (280, 545))
     #draw exit button
