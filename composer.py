@@ -13,7 +13,6 @@ def init(data):
     data.color = (0, 0, 0)
     data.radius = 10
 
-<<<<<<< HEAD
 # def roundline(srf, color, start, end, radius=1): #taken from stack overflow
 # 	dx = end[0]-start[0]
 #     dy = end[1]-start[1]
@@ -22,13 +21,8 @@ def init(data):
 #         x = int(start[0]+float(i)/distance*dx)
 #         y = int(start[1]+float(i)/distance*dy)
 #         pygame.draw.circle(srf, color, (x, y), radius)
-=======
 def roundline(srf, color, start, end, radius=1): #taken from stack overflow
     screen = pygame.display.set_mode(size)
-def init(data):
-    data.background = [255, 255, 255]
->>>>>>> origin/master
-    
 
 def mousePressed(event, data):
     if event.type==pygame.MOUSEBUTTONDOWN:
