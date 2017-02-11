@@ -115,5 +115,5 @@ def run(width=300, height=300):
             keyPressedWrapper(event, screen, data)
     # and launch the app
     print("bye!")
-
+    pygame.quit()
 run(1000, 700)
