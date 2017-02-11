@@ -11,7 +11,6 @@ def init(data):
     data.drawing = False
     data.pos = (0, 0)
     data.cells = dict()
-    data.color = (0, 0, 0)
     data.radius = 10
     data.click = False
     data.buttonColor = (0,0,0)
@@ -138,7 +137,7 @@ def mousePressed(event, data):
     if event.type == pygame.MOUSEMOTION:
         if data.click == True:
             data.pos = event.pos
-            data.cells[data.pos] = data.color
+            data.cells[data.pos] = (data.red, data.green,)
 
 def keyPressed(event, data):
     pass
@@ -152,8 +151,8 @@ def redrawAll(screen, data):
     if data.colorPicker:
         drawColorPicker(screen, data)
     else: 
-        draw(screen, data)
         drawUI(screen, data)
+        draw(screen, data)
 
 def drawColorPicker(screen, data):
     drawGradientSquare(screen, data)
