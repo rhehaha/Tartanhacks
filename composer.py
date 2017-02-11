@@ -6,14 +6,14 @@ import pygame
 screen = pygame.display.set_mode((800, 600))
 
 def init(data):
-    data.background = [255, 255, 255]
+    data.background = (255, 255, 255)
     data.drawing = False
     data.pos = (0, 0)
     data.cells = dict()
     data.color = (0, 0, 0)
     data.radius = 10
+    data.click = False
 
-<<<<<<< HEAD
 # def roundline(srf, color, start, end, radius=1): #taken from stack overflow
 # 	dx = end[0]-start[0]
 #     dy = end[1]-start[1]
@@ -22,18 +22,19 @@ def init(data):
 #         x = int(start[0]+float(i)/distance*dx)
 #         y = int(start[1]+float(i)/distance*dy)
 #         pygame.draw.circle(srf, color, (x, y), radius)
-=======
+
 def roundline(srf, color, start, end, radius=1): #taken from stack overflow
     screen = pygame.display.set_mode(size)
-def init(data):
-    data.background = [255, 255, 255]
->>>>>>> origin/master
-    
 
 def mousePressed(event, data):
-    if event.type==pygame.MOUSEBUTTONDOWN:
-        data.pos = event.pos
-        data.cells[data.pos] = data.color
+    if event.type == pygame.MOUSEBUTTONDOWN: 
+        data.click = True
+    if event.type == pygame.MOUSEBUTTONUP: 
+        data.click = False
+    if event.type == pygame.MOUSEMOTION:
+        if data.click == True:
+            data.pos = event.pos
+            data.cells[data.pos] = data.color
 
 def keyPressed(event, data):
     pass
@@ -42,7 +43,7 @@ def timerFired(data):
     pass
 
 def redrawAll(screen, data):
-    pass
+    draw(screen, data)
     
 # Modified from 112 website
 def make2dList(rows, cols, value=0):
@@ -57,7 +58,7 @@ def db(*args):
 
 def draw(screen, data):
     for loc in data.cells:
-        pygame.draw.circle(screen, data.cells[loc], loc, data.radius, width=0)
+        pygame.draw.circle(screen, data.cells[loc], loc, data.radius)
 
 # This function takes the text, the center of the text, font, and color, and 
 # draw the text on the screen.
@@ -119,7 +120,6 @@ def run(width=300, height=300):
     if not pygame.font.get_init(): pygame.font.init()
     screen = pygame.display.set_mode([data.width, data.height])
     pygame.display.set_caption("COMPOSER")
-    pygame.event.set_blocked(pygame.MOUSEMOTION)
     redrawAllWrapper(screen, data)
     # set up events
     # timerFiredWrapper(screen, data)
