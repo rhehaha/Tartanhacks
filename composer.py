@@ -69,10 +69,12 @@ def timerFired(data):
 def redrawAll(screen, data):
     draw(screen, data)
     if data.colorPicker:
-        drawGradientSquare(screen, data)
-        drawColorBar(screen, data)
-        drawColor(screen, data)
+        drawColorPicker(screen, data)
 
+def drawColorPicker(screen, data):
+    drawGradientSquare(screen, data)
+    drawColorBar(screen, data)
+    drawColor(screen, data)
     
 # Modified from 112 website
 def make2dList(rows, cols, value=0):
