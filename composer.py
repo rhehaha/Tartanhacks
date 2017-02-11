@@ -6,6 +6,7 @@ import pygame
 screen = pygame.display.set_mode((800, 600))
 
 def init(data):
+<<<<<<< HEAD
     data.background = [255, 255, 255]
     data.drawing = False
     data.lastPos = (0, 0)
@@ -14,6 +15,9 @@ def init(data):
 
 def roundline(srf, color, start, end, radius=1): #taken from stack overflow
     
+=======
+	data.background = [255, 255, 255]
+>>>>>>> origin/master
     
 def mousePressed(event, data):
     pass
@@ -57,8 +61,8 @@ def drawButton(screen, data, x, y, w, h, text, cX, cY, font, textColor):
 ####################################
 
 def run(width=300, height=300):
-    def redrawAllWrapper(screen, data):
-        screen.fill(data.background)
+	def redrawAllWrapper(screen, data):
+		screen.fill(data.background)
         row, col = 0, 0
         color = [255, 255, 255]
         redrawAll(screen, data)
