@@ -16,6 +16,7 @@ def init(data):
     data.buttonColor = (0,0,0)
     data.cpButton = (70, 545, 50, 50)
     data.colorArr = []
+    data.hsl = ()
 
     #Color picker stuff
     data.cMax, data.cStep = 255, 5  # Max value for colors, the step of the
@@ -111,8 +112,7 @@ def drawUI(screen, data):
         -data.easelBottomH+15), (745, data.height
         -data.easelBottomH+45), 3)
     screen.blit(data.textCanvas, (0,0))
-    pygame.display.flip()
-
+    
 def mousePressed(event, data):
     x, y = event.pos
     a, b, w, h = data.cpButton
@@ -127,20 +127,22 @@ def mousePressed(event, data):
         elif (x > data.margin and x < data.margin + data.cMax * 2 and
             y > data.margin and y < data.margin + data.cMax * 2):
             data.gCirc[0], data.gCirc[1] = x, y
-    if event.type == pygame.MOUSEBUTTONDOWN: 
-        data.click = True
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        if y > data.easelPlankH + 7 and y < data.height - data.easelBottomH - 20: 
+            data.click = True
         if x >= a and x <= (a+w) and y >= b and y <= (b+h):
             if not data.colorPicker: data.colorPicker = True
             elif data.colorPicker: data.colorPicker = False
     if event.type == pygame.MOUSEBUTTONUP: 
         data.click = False
     if event.type == pygame.MOUSEMOTION:
-        if data.click == True:
+        if data.click == True and y > data.easelPlankH + 7 and y < data.height - data.easelBottomH - 20:
             data.pos = event.pos
             data.cells[data.pos] = (data.red, data.green, data.blue)
 
-def keyPressed(event, data):
-    pass
+def keyPressed(event, screen, data):
+    if event.key == pygame.K_RETURN:
+        getSounds(screen, data)
 
 def timerFired(data):
     pass
@@ -171,13 +173,13 @@ def db(*args):
     if (dbOn): print(args)
 
 def rgbToHSL(r, g, b):
-    red = r/255
-    green = g/255
-    blue = b/255
+    red = r/255.0
+    green = g/255.0
+    blue = b/255.0
     cmaximum = max(red, green, blue)
     cminimum = min(red, green, blue)
     delta = cmaximum - cminimum
-    l = (cmaximum + cminimum)/2
+    l = (cmaximum + cminimum)/ 2.0
     if delta == 0:
         s = 0
         h = 0
@@ -193,14 +195,8 @@ def rgbToHSL(r, g, b):
         if l < 0.5:
             s = (cmaximum-cminimum)/(cmaximum+cminimum)
         else: s = (cmaximum-cminimum)/(2.0-cmaximum-cminimum)
-# def roundline(screen, color, start, end, radius):
-#     dx = end[0]-start[0]
-#     dy = end[1]-start[1]
-#     distance = max(abs(dx), abs(dy))
-#     for i in range(distance):
-#         x = int(start[0]+float(i)/distance*dx)
-#         y = int(start[1]+float(i)/distance*dy)
-#         pygame.draw.circle(screen, color, (x, y), radius)
+
+    return (h, s * 100, l * 100)
 
 def draw(screen, data):
     for loc in data.cells:
@@ -326,10 +322,48 @@ def getColors(screen, data):
     colorArr = []
     for x in range(data.width):
         colColor = []
-        for y in range(data.height):
-            colColor.append(screen.get_at(x, y))
+        for y in range(data.easelPlankH, data.height - data.easelBottomH - 10):
+            color = screen.get_at((x, y))
+            data.hsl = rgbToHSL(color[0], color[1], color[2])
+            colColor.append(data.hsl)
         colorArr.append(copy.copy(colColor))
     data.colorArr = copy.copy(colorArr)
+
+def getInstrument(data):
+    instrArr = []
+    for x in range(data.width):
+        colInstr = [0, 0, 0, 0, 0, 0, 0]
+        for color in data.colorArr[x]:
+            if color[2] < 15 or (color[1] <= 10 and color[2] < 75):
+                colInstr[6] += 1
+
+            elif color[2] >= 15 and color[2] < 90:
+                if color[0] <= 10 or color[0] > 300:
+                    colInstr[0] += 1
+
+                elif color[0] <= 45:
+                    colInstr[1] += 1
+
+                elif color[0] <= 75:
+                    colInstr[2] += 1
+
+                elif color[0] <= 140:
+                    colInstr[3] += 1
+
+                elif color[0] <= 250:
+                    colInstr[4] += 1
+
+                elif color[0] <= 300:
+                    colInstr[5] += 1
+        instrArr.append(copy.copy(colInstr))
+    data.instrArr = copy.copy(instrArr)
+    
+def getSounds(screen, data):
+    getColors(screen, data)
+    # print(data.colorArr)
+    getInstrument(data)
+    for x in range(data.width - 20, data.width):
+        print data.instrArr
 
 ####################################
 # use the run function as-is
@@ -348,7 +382,7 @@ def run(width=300, height=300):
         redrawAllWrapper(screen, data)
 
     def keyPressedWrapper(event, screen, data):
-        keyPressed(event, data)
+        keyPressed(event, screen, data)
         redrawAllWrapper(screen, data)
 
     def timerFiredWrapper(screen, data):
