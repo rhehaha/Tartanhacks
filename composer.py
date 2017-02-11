@@ -36,6 +36,38 @@ def init(data):
     data.colorBar = []  # List of all the colors in rgb list form
     data.colorPicker = False # If they color picker button is pressed.
     makeColorBar(data)
+
+def drawSplashScreen(screen, data):
+    #draw splash screen
+    data.splashCanvas = pygame.Surface(screen.get_size())
+    data.splashCanvas.fill((0, 0, 0))
+    
+    #draw colors
+    data.pureRed = (255, 0, 0)
+    data.pureOrange = (255, 128, 0)
+    data.pureYellow = (255, 255, 0)
+    data.pureGreen = (102, 204, 0)
+    data.pureBlue = (0, 0, 255)
+    data.purePurple = (102, 0, 204)
+    data.rainbow = [data.pureRed, data.pureOrange, data.pureYellow,data.pureGreen, 
+                    data.pureBlue, data.purePurple]
+    for i in range(6):
+        pygame.draw.ellipse(data.splashCanvas, data.rainbow[i], 
+                                (i*133, -100, 130, 160), 0)
+        pygame.draw.ellipse(data.splashCanvas, data.rainbow[i] ,(i * 133 + 30, 
+                                        30, 70, 150), 0)
+        pygame.draw.ellipse(data.splashCanvas,data.rainbow[i]
+                                ,(i*133+45,150,40,100),0)
+        if i%2 == 0:
+            pygame.draw.ellipse(data.splashCanvas,data.rainbow[i]
+                                ,(i*133+50,225,30,70),0)
+    
+    #draw title
+    titleFont = pygame.font.SysFont('applechancery', 72)
+    title = titleFont.render('c o m p o s e r', True, data.white)
+    data.splashCanvas.blit(title, (210, 230))
+    
+    screen.blit(data.splashCanvas, (0,0))
     
 def drawUI(screen, data):
     data.textCanvas = pygame.Surface(screen.get_size())
@@ -43,6 +75,7 @@ def drawUI(screen, data):
     
     data.white = (250, 250, 250)
     data.lightGray = (200, 200, 200)
+    data.midGray = (150, 150, 150)
     data.black = (0, 0, 0)
     data.brown1 = (215, 160, 87)
     data.brown2 = (180, 128, 60)
@@ -92,20 +125,35 @@ def drawUI(screen, data):
     pygame.draw.polygon(data.textCanvas, data.pink, data.eraserPoints, 0)
     pygame.draw.polygon(data.textCanvas, data.darkPink, data.eraserPoints2, 0)
     #draw audio button
+<<<<<<< HEAD
     pygame.draw.polygon(data.textCanvas, data.black, [(613,570), (650,545),
                     (650,595)], 0)
     pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
     pygame.draw.rect(data.textCanvas, data.black, (613,558,20,27), 0)
     pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
+=======
+    pygame.draw.ellipse(data.textCanvas, data.midGray, (608, 540, 61, 59), 0)
+    pygame.draw.ellipse(data.textCanvas, data.lightGray, (610,542,57,55), 0)
+    pygame.draw.ellipse(data.textCanvas, data.white, (614,546,49,47), 0)
+    pygame.draw.polygon(data.textCanvas, data.black, [(620,570), (645,552),
+                    (645,588)], 0)
+    #pygame.draw.ellipse(data.textCanvas, data.black, (640, 545, 25, 50), 0)
+    pygame.draw.rect(data.textCanvas, data.black, (620,560,20,22), 0)
+    pygame.draw.arc(data.textCanvas, data.black, (644,565,10,10), -1*math.pi/2,
+>>>>>>> origin/master
                         math.pi/2, 3)
     pygame.draw.arc(data.textCanvas, data.black, (665,560,10,20), -1*math.pi/2,
                         math.pi/2, 3)
     pygame.draw.arc(data.textCanvas, data.black, (675,555,12,30), -1*math.pi/2,
                         math.pi/2, 3)
     #draw title
+<<<<<<< HEAD
     titleFont = pygame.font.SysFont('avenir', 32, True)
+=======
+    titleFont = pygame.font.SysFont('applechancery', 42)
+>>>>>>> origin/master
     title = titleFont.render('c o m p o s e r', True, data.white)
-    data.textCanvas.blit(title, (280, 545))
+    data.textCanvas.blit(title, (290, 530))
     #draw exit button
     pygame.draw.rect(data.textCanvas, data.black, (740, data.height
         -data.easelBottomH+10, 40, 40), 2)
@@ -366,8 +414,15 @@ def getPitch(data):
     
 def getSounds(screen, data):
     getColors(screen, data)
+<<<<<<< HEAD
     getPitch(data)
     playSounds(data)
+=======
+    # print(data.colorArr)
+    getInstrument(data)
+    for x in range(data.width - 20, data.width):
+        print(data.instrArr)
+>>>>>>> origin/master
 
 def playSounds(data):
     calcVol(data)
