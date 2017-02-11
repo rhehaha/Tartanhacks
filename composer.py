@@ -3,11 +3,17 @@ import pygame
 ####################################
 ####################################
 
-<<<<<<< HEAD
-screen = pygame.display.set_mode(size)
-=======
+screen = pygame.display.set_mode((800, 600))
+
 def init(data):
     data.background = [255, 255, 255]
+    data.drawing = False
+    data.lastPos = (0, 0)
+    data.color = (0, 0, 0)
+    data.radius = 10
+
+def roundline(srf, color, start, end, radius=1): #taken from stack overflow
+    
     
 def mousePressed(event, data):
     pass
@@ -91,7 +97,7 @@ def run(width=300, height=300):
     init(data)
     if not pygame.font.get_init(): pygame.font.init()
     screen = pygame.display.set_mode([data.width, data.height])
-    pygame.display.set_caption("Room Designer!")
+    pygame.display.set_caption("COMPOSER")
     pygame.event.set_blocked(pygame.MOUSEMOTION)
     redrawAllWrapper(screen, data)
     # set up events
@@ -109,4 +115,3 @@ def run(width=300, height=300):
     print("bye!")
 
 run(1000, 700)
->>>>>>> origin/master
