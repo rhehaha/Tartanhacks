@@ -6,7 +6,6 @@ import pygame
 screen = pygame.display.set_mode((800, 600))
 
 def init(data):
-<<<<<<< HEAD
     data.background = [255, 255, 255]
     data.drawing = False
     data.lastPos = (0, 0)
@@ -14,10 +13,9 @@ def init(data):
     data.radius = 10
 
 def roundline(srf, color, start, end, radius=1): #taken from stack overflow
-    
-=======
-	data.background = [255, 255, 255]
->>>>>>> origin/master
+    screen = pygame.display.set_mode(size)
+def init(data):
+    data.background = [255, 255, 255]
     
 def mousePressed(event, data):
     pass
@@ -61,12 +59,12 @@ def drawButton(screen, data, x, y, w, h, text, cX, cY, font, textColor):
 ####################################
 
 def run(width=300, height=300):
-	def redrawAllWrapper(screen, data):
-		screen.fill(data.background)
+    def redrawAllWrapper(screen, data):
+        screen.fill(data.background)
         row, col = 0, 0
         color = [255, 255, 255]
         redrawAll(screen, data)
-        pygame.display.flip()    
+        pygame.display.flip()
 
     def mousePressedWrapper(event, screen, data):
         mousePressed(event, data)
@@ -81,12 +79,12 @@ def run(width=300, height=300):
         redrawAllWrapper(screen, data)
         event = pygame.event.poll()
         if event.type == pygame.QUIT:
-        	return
+            return
         elif (event.type == pygame.MOUSEBUTTONDOWN or event.type == 
                     pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEMOTION):
-        	mousePressedWrapper(event, screen, data)
+            mousePressedWrapper(event, screen, data)
         elif event.type == pygame.KEYUP:
-        	keyPressedWrapper(event, screen, data)
+            keyPressedWrapper(event, screen, data)
         # pause, then call timerFired again
         pygame.time.delay(data.timerDelay)
         timerFiredWrapper(screen, data)
