@@ -13,6 +13,7 @@ def init(data):
     data.color = (0, 0, 0)
     data.radius = 10
 
+<<<<<<< HEAD
 # def roundline(srf, color, start, end, radius=1): #taken from stack overflow
 # 	dx = end[0]-start[0]
 #     dy = end[1]-start[1]
@@ -21,6 +22,12 @@ def init(data):
 #         x = int(start[0]+float(i)/distance*dx)
 #         y = int(start[1]+float(i)/distance*dy)
 #         pygame.draw.circle(srf, color, (x, y), radius)
+=======
+def roundline(srf, color, start, end, radius=1): #taken from stack overflow
+    screen = pygame.display.set_mode(size)
+def init(data):
+    data.background = [255, 255, 255]
+>>>>>>> origin/master
     
 
 def mousePressed(event, data):
@@ -71,12 +78,12 @@ def drawButton(screen, data, x, y, w, h, text, cX, cY, font, textColor):
 ####################################
 
 def run(width=300, height=300):
-	def redrawAllWrapper(screen, data):
-		screen.fill(data.background)
+    def redrawAllWrapper(screen, data):
+        screen.fill(data.background)
         row, col = 0, 0
         color = [255, 255, 255]
         redrawAll(screen, data)
-        pygame.display.flip()    
+        pygame.display.flip()
 
     def mousePressedWrapper(event, screen, data):
         mousePressed(event, data)
@@ -91,12 +98,12 @@ def run(width=300, height=300):
         redrawAllWrapper(screen, data)
         event = pygame.event.poll()
         if event.type == pygame.QUIT:
-        	return
+            return
         elif (event.type == pygame.MOUSEBUTTONDOWN or event.type == 
                     pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEMOTION):
-        	mousePressedWrapper(event, screen, data)
+            mousePressedWrapper(event, screen, data)
         elif event.type == pygame.KEYUP:
-        	keyPressedWrapper(event, screen, data)
+            keyPressedWrapper(event, screen, data)
         # pause, then call timerFired again
         pygame.time.delay(data.timerDelay)
         timerFiredWrapper(screen, data)
@@ -127,5 +134,5 @@ def run(width=300, height=300):
             keyPressedWrapper(event, screen, data)
     # and launch the app
     print("bye!")
-
+    pygame.quit()
 run(1000, 700)
