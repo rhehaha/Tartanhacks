@@ -14,21 +14,6 @@ def init(data):
     data.radius = 10
     data.click = False
 
-# def roundline(srf, color, start, end, radius=1): #taken from stack overflow
-# 	dx = end[0]-start[0]
-#     dy = end[1]-start[1]
-#     distance = max(abs(dx), abs(dy))
-#     for i in range(distance):
-#         x = int(start[0]+float(i)/distance*dx)
-#         y = int(start[1]+float(i)/distance*dy)
-#         pygame.draw.circle(srf, color, (x, y), radius)
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
-def roundline(srf, color, start, end, radius=1): #taken from stack overflow
-    screen = pygame.display.set_mode(size)
-
 def mousePressed(event, data):
     if event.type == pygame.MOUSEBUTTONDOWN: 
         data.click = True
@@ -59,9 +44,20 @@ def db(*args):
     dbOn = False
     if (dbOn): print(args)
 
+# def roundline(screen, color, start, end, radius):
+#     dx = end[0]-start[0]
+#     dy = end[1]-start[1]
+#     distance = max(abs(dx), abs(dy))
+#     for i in range(distance):
+#         x = int(start[0]+float(i)/distance*dx)
+#         y = int(start[1]+float(i)/distance*dy)
+#         pygame.draw.circle(screen, color, (x, y), radius)
+
 def draw(screen, data):
     for loc in data.cells:
         pygame.draw.circle(screen, data.cells[loc], loc, data.radius)
+
+
 
 # This function takes the text, the center of the text, font, and color, and 
 # draw the text on the screen.
@@ -138,4 +134,4 @@ def run(width=300, height=300):
     # and launch the app
     print("bye!")
     pygame.quit()
-run(1000, 700)
+run(800, 600)
