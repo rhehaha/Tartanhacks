@@ -6,21 +6,27 @@ import pygame
 screen = pygame.display.set_mode((800, 600))
 
 def init(data):
-<<<<<<< HEAD
     data.background = [255, 255, 255]
     data.drawing = False
-    data.lastPos = (0, 0)
+    data.pos = (0, 0)
+    data.cells = dict()
     data.color = (0, 0, 0)
     data.radius = 10
 
-def roundline(srf, color, start, end, radius=1): #taken from stack overflow
+# def roundline(srf, color, start, end, radius=1): #taken from stack overflow
+# 	dx = end[0]-start[0]
+#     dy = end[1]-start[1]
+#     distance = max(abs(dx), abs(dy))
+#     for i in range(distance):
+#         x = int(start[0]+float(i)/distance*dx)
+#         y = int(start[1]+float(i)/distance*dy)
+#         pygame.draw.circle(srf, color, (x, y), radius)
     
-=======
-	data.background = [255, 255, 255]
->>>>>>> origin/master
-    
+
 def mousePressed(event, data):
-    pass
+    if event.type==pygame.MOUSEBUTTONDOWN:
+        data.pos = event.pos
+        data.cells[data.pos] = data.color
 
 def keyPressed(event, data):
     pass
@@ -41,6 +47,10 @@ def make2dList(rows, cols, value=0):
 def db(*args):
     dbOn = False
     if (dbOn): print(args)
+
+def draw(screen, data):
+    for loc in data.cells:
+        pygame.draw.circle(screen, data.cells[loc], loc, data.radius, width=0)
 
 # This function takes the text, the center of the text, font, and color, and 
 # draw the text on the screen.
