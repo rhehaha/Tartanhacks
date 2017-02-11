@@ -1,4 +1,5 @@
 import pygame
+import copy
 
 ####################################
 ####################################
@@ -13,6 +14,7 @@ def init(data):
     data.color = (0, 0, 0)
     data.radius = 10
     data.click = False
+    data.colorArr = []
 
     #Color picker stuff
     data.cMax, data.cStep = 255, 5  # Max value for colors, the step of the
@@ -206,6 +208,15 @@ def drawColor(screen, data):
         data.cMax * 2 + data.margin * 2, data.cMax * 2, (data.height - (data.margin * 3 + 
                 (data.cMax * 2))) / 2])
     print(data.red, data.green, data.blue)
+
+def getColors(screen, data):
+    colorArr = []
+    for x in range(data.width):
+        colColor = []
+        for y in range(data.height):
+            colColor.append(screen.get_at(x, y))
+        colorArr.append(copy.copy(colColor))
+    data.colorArr = copy.copy(colorArr)
 
 ####################################
 # use the run function as-is
